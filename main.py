@@ -28,6 +28,10 @@ from app.routes.auth_routes import (
     router as auth_router
 )
 
+from app.routes.usuario_routes import (
+    router as usuario_router
+)
+
 from app.routes.exame_routes import (
     router as exame_router
 )
@@ -118,6 +122,8 @@ db.close()
 
 # ROTAS
 app.include_router(auth_router)
+
+app.include_router(usuario_router)
 
 app.include_router(exame_router)
 

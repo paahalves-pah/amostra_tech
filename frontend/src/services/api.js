@@ -7,14 +7,12 @@ const api = axios.create({
 })
 
 
-// INTERCEPTOR JWT
 api.interceptors.request.use(
 
   (config) => {
 
-    const token = localStorage.getItem(
-      "token"
-    )
+    const token =
+      localStorage.getItem("token")
 
     if (token) {
 
@@ -24,12 +22,6 @@ api.interceptors.request.use(
     }
 
     return config
-
-  },
-
-  (error) => {
-
-    return Promise.reject(error)
 
   }
 

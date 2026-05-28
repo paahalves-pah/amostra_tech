@@ -8,26 +8,21 @@ from jose import JWTError
 
 from sqlalchemy.orm import Session
 
-from dotenv import load_dotenv
-
-import os
-
 from app.database.database import get_db
 
 from app.models.usuario_model import Usuario
 
-load_dotenv()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = "amostratech_secret"
 
-ALGORITHM = os.getenv("ALGORITHM")
+ALGORITHM = "HS256"
+
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/auth/login"
 )
 
 
-# USUÁRIO LOGADO
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
@@ -46,12 +41,14 @@ def get_current_user(
             algorithms=[ALGORITHM]
         )
 
-        usuario_id = payload.get("usuario_id")
+        usuario_id = payload.get("id")
 
         if usuario_id is None:
+
             raise credenciais_exception
 
     except JWTError:
+
         raise credenciais_exception
 
     usuario = db.query(Usuario).filter(
@@ -59,6 +56,7 @@ def get_current_user(
     ).first()
 
     if usuario is None:
+
         raise credenciais_exception
 
     return usuario
