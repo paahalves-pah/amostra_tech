@@ -78,7 +78,11 @@ def criar_usuario(
 
         foto_perfil=usuario.foto_perfil,
 
-        tipo_usuario=usuario.tipo_usuario
+        tipo_usuario=usuario.tipo_usuario,
+
+        first_access=True,
+
+        ativo=True
 
     )
 
@@ -213,6 +217,8 @@ def resetar_senha(
     usuario_reset.senha = gerar_hash_senha(
         dados.nova_senha
     )
+
+    usuario_reset.first_access = True
 
     db.commit()
 

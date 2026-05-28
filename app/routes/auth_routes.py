@@ -12,8 +12,13 @@ from app.schemas.usuario_schema import (
     UsuarioLogin
 )
 
+from app.auth.auth_bearer import (
+    get_current_user
+)
+
 from app.auth.security import (
-    verificar_senha
+    verificar_senha,
+    gerar_hash_senha
 )
 
 from app.auth.jwt_handler import criar_token
@@ -81,8 +86,61 @@ def login(
 
             "tipo_usuario": usuario.tipo_usuario,
 
+            "first_access": usuario.first_access,
+
             "foto_perfil": usuario.foto_perfil
 
         }
 
+    }
+
+
+# ALTERAR SENHA
+@router.put("/change-password")
+def alterar_senha(
+
+    dados: dict,
+
+    usuario_logado = Depends(
+        get_current_user
+    ),
+
+    db: Session = Depends(get_db)
+
+):
+
+    usuario = db.query(Usuario).filter(
+        Usuario.id == usuario_logado.id
+    ).first()
+
+    if not usuario:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Usuário não encontrado"
+        )
+
+    senha_valida = verificar_senha(
+        dados["senha_atual"],
+        usuario.senha
+    )
+
+    if not senha_valida:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Senha atual inválida"
+        )
+
+    usuario.senha = gerar_hash_senha(
+        dados["nova_senha"]
+    )
+
+    usuario.first_access = False
+
+    db.commit()
+
+    return {
+        "message":
+        "Senha alterada com sucesso"
     }

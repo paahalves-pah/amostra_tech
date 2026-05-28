@@ -2,7 +2,6 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import MainLayout from "../layouts/MainLayout"
-import Sidebar from "../components/Sidebar"
 
 import api from "../services/api"
 
@@ -30,16 +29,24 @@ function ChangePassword() {
         !confirmPassword
       ) {
 
-        alert("Preencha todos os campos")
+        alert(
+          "Preencha todos os campos"
+        )
 
         return
+
       }
 
-      if (newPassword !== confirmPassword) {
+      if (
+        newPassword !== confirmPassword
+      ) {
 
-        alert("As senhas não coincidem")
+        alert(
+          "As senhas não coincidem"
+        )
 
         return
+
       }
 
       await api.put(
@@ -53,20 +60,30 @@ function ChangePassword() {
         }
       )
 
-      localStorage.setItem(
-        "firstAccess",
-        "false"
+      const user = JSON.parse(
+        localStorage.getItem("user")
       )
 
-      alert("Senha alterada com sucesso!")
+      user.first_access = false
 
-      navigate("/home")
+      localStorage.setItem(
+        "user",
+        JSON.stringify(user)
+      )
+
+      alert(
+        "Senha alterada com sucesso!"
+      )
+
+      navigate("/dashboard")
 
     } catch (error) {
 
       console.log(error)
 
-      alert("Erro ao alterar senha")
+      alert(
+        "Erro ao alterar senha"
+      )
 
     }
 
@@ -74,70 +91,65 @@ function ChangePassword() {
 
 
   return (
+
     <MainLayout>
 
-      <div className="flex gap-8">
+      <div className="flex items-center justify-center py-10">
 
-        <Sidebar />
+        <div className="bg-white p-10 rounded-3xl shadow w-[500px]">
 
-        <div className="flex-1 flex items-center justify-center">
+          <h1 className="text-3xl font-bold mb-2">
+            Alterar Senha
+          </h1>
 
-          <div className="bg-white p-10 rounded-3xl shadow w-[500px]">
+          <p className="text-gray-500 mb-8">
+            Atualize sua senha de acesso.
+          </p>
 
-            <h1 className="text-3xl font-bold mb-2">
+          <div className="flex flex-col gap-5">
+
+            <input
+              type="password"
+              placeholder="Senha atual"
+              value={currentPassword}
+              onChange={(e) =>
+                setCurrentPassword(
+                  e.target.value
+                )
+              }
+              className="p-3 rounded-xl border border-gray-300 outline-none"
+            />
+
+            <input
+              type="password"
+              placeholder="Nova senha"
+              value={newPassword}
+              onChange={(e) =>
+                setNewPassword(
+                  e.target.value
+                )
+              }
+              className="p-3 rounded-xl border border-gray-300 outline-none"
+            />
+
+            <input
+              type="password"
+              placeholder="Confirmar nova senha"
+              value={confirmPassword}
+              onChange={(e) =>
+                setConfirmPassword(
+                  e.target.value
+                )
+              }
+              className="p-3 rounded-xl border border-gray-300 outline-none"
+            />
+
+            <button
+              onClick={handleChangePassword}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl transition"
+            >
               Alterar Senha
-            </h1>
-
-            <p className="text-gray-500 mb-8">
-              Atualize sua senha de acesso.
-            </p>
-
-            <div className="flex flex-col gap-5">
-
-              <input
-                type="password"
-                placeholder="Senha atual"
-                value={currentPassword}
-                onChange={(e) =>
-                  setCurrentPassword(
-                    e.target.value
-                  )
-                }
-                className="p-3 rounded-xl border border-gray-300 outline-none"
-              />
-
-              <input
-                type="password"
-                placeholder="Nova senha"
-                value={newPassword}
-                onChange={(e) =>
-                  setNewPassword(
-                    e.target.value
-                  )
-                }
-                className="p-3 rounded-xl border border-gray-300 outline-none"
-              />
-
-              <input
-                type="password"
-                placeholder="Confirmar nova senha"
-                value={confirmPassword}
-                onChange={(e) =>
-                  setConfirmPassword(
-                    e.target.value
-                  )
-                }
-                className="p-3 rounded-xl border border-gray-300 outline-none"
-              />
-
-              <button
-                onClick={handleChangePassword}
-                className="bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl transition"
-              >
-                Alterar Senha
-              </button>
-
-            </div>
+            </button>
 
           </div>
 
@@ -146,7 +158,9 @@ function ChangePassword() {
       </div>
 
     </MainLayout>
+
   )
+
 }
 
 export default ChangePassword

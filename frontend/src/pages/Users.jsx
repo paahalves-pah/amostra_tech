@@ -7,7 +7,8 @@ import api from "../services/api"
 import {
   Pencil,
   Trash2,
-  UserPlus
+  UserPlus,
+  KeyRound
 } from "lucide-react"
 
 
@@ -256,6 +257,40 @@ function Users() {
   }
 
 
+  async function handleResetPassword(id) {
+
+    const confirmar = confirm(
+      "Resetar senha do usuário para 123456?"
+    )
+
+    if (!confirmar) return
+
+    try {
+
+      await api.put(
+        `/users/resetar-senha/${id}`,
+        {
+          nova_senha: "123456"
+        }
+      )
+
+      alert(
+        "Senha resetada para 123456"
+      )
+
+    } catch (error) {
+
+      console.log(error)
+
+      alert(
+        "Erro ao resetar senha"
+      )
+
+    }
+
+  }
+
+
   return (
 
     <MainLayout>
@@ -484,6 +519,17 @@ function Users() {
                         >
 
                           <Pencil size={18} />
+
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            handleResetPassword(user.id)
+                          }
+                          className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-xl transition"
+                        >
+
+                          <KeyRound size={18} />
 
                         </button>
 
