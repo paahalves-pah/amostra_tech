@@ -18,6 +18,9 @@ function Profile() {
     localStorage.getItem("user")
   )
 
+  const isAdmin =
+  localUser?.tipo_usuario === "ADMIN"
+
   const [user, setUser] =
     useState({})
 
@@ -48,8 +51,8 @@ function Profile() {
     try {
 
       const response = await api.get(
-        "/auth/users"
-      )
+       "/users"
+        )
 
       const usuario =
         response.data.find(
@@ -131,26 +134,27 @@ function Profile() {
     try {
 
       await api.put(
-        `/auth/users/${localUser.id}`,
-        {
+      `/users/${localUser.id}`,
 
-          nome: user.nome,
+                {
+            nome,
 
-          email: user.email,
+            email,
 
-          telefone: user.telefone,
+            telefone,
 
-          cargo: user.cargo,
+            cargo,
 
-          unidade: user.unidade,
+            unidade: setor,
 
-          tipo_usuario: user.tipo_usuario,
+            tipo_usuario:
+              user.tipo_usuario,
 
-          matricula: user.matricula,
+            matricula,
 
-          foto_perfil: fotoPerfil
-
-        }
+            foto_perfil:
+              fotoPerfil
+          }
       )
 
       alert(
@@ -229,10 +233,10 @@ function Profile() {
             </label>
 
             <button
-              onClick={handleSaveProfile}
-              className="mt-8 bg-blue-500 hover:bg-blue-600 text-white px-10 py-4 rounded-2xl text-xl font-bold transition"
-            >
-              Salvar Foto
+                onClick={handleSaveProfile}
+                className="mt-8 bg-blue-500 hover:bg-blue-600 text-white px-10 py-4 rounded-2xl text-xl font-bold transition"
+              >
+                Salvar Perfil
             </button>
 
           </div>
@@ -243,36 +247,49 @@ function Profile() {
             <input
               type="text"
               value={nome}
-              disabled
-              className="p-5 rounded-3xl border-4 border-gray-700 text-xl bg-white"
+              onChange={(e) =>
+                setNome(e.target.value)
+              }
+              disabled={!isAdmin}
             />
 
             <input
-              type="email"
-              value={email}
-              disabled
-              className="p-5 rounded-3xl border-4 border-gray-700 text-xl bg-white"
+                type="email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                disabled={!isAdmin}
             />
 
             <input
-              type="text"
-              value={matricula}
-              disabled
-              className="p-5 rounded-3xl border-4 border-gray-700 text-xl bg-white"
+                type="text"
+                value={matricula}
+                onChange={(e) =>
+                  setMatricula(e.target.value)
+                }
+                disabled={!isAdmin}
+              
             />
 
             <input
               type="text"
               value={setor}
-              disabled
-              className="p-5 rounded-3xl border-4 border-gray-700 text-xl bg-white"
+              onChange={(e) =>
+                setSetor(e.target.value)
+              }
+              disabled={!isAdmin}
+             
             />
 
             <input
               type="text"
               value={telefone}
-              disabled
-              className="p-5 rounded-3xl border-4 border-gray-700 text-xl bg-white"
+              onChange={(e) =>
+                setTelefone(e.target.value)
+              }
+              disabled={!isAdmin}
+          
             />
 
           </div>

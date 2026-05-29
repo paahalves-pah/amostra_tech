@@ -12,6 +12,7 @@ import Users from "./pages/Users"
 import Profile from "./pages/Profile"
 import Login from "./pages/Login"
 import ChangePassword from "./pages/ChangePassword"
+import Procedimentos from "./pages/Procedimentos"
 
 
 function PrivateRoute({ children }) {
@@ -84,7 +85,7 @@ function App() {
           path="/"
           element={<Login />}
         />
-
+          
         <Route
           path="/change-password"
           element={
@@ -96,6 +97,16 @@ function App() {
           }
         />
 
+        <Route
+          path="/procedimentos"
+          element={
+            <PrivateRoute>
+
+              <Procedimentos />
+
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={

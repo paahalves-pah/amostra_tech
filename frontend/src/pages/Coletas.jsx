@@ -67,6 +67,16 @@ function Coletas() {
   const [selectedExam, setSelectedExam] =
     useState(null)
 
+  const [search, setSearch] =
+  useState("")
+
+  const [statusFilter, setStatusFilter] =
+    useState("TODOS")
+
+  const [prioridadeFilter, setPrioridadeFilter] =
+    useState("TODAS")
+
+
   const [paciente, setPaciente] =
     useState("")
 
@@ -354,6 +364,45 @@ function Coletas() {
 
   }
 
+  const filteredExams = exams.filter(
+  (exam) => {
+
+    const matchSearch =
+
+      exam.paciente
+        ?.toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
+
+      ||
+
+      exam.protocolo
+        ?.toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
+
+    const matchStatus =
+
+      statusFilter === "TODOS"
+      ||
+      exam.status === statusFilter
+
+    const matchPrioridade =
+
+      prioridadeFilter === "TODAS"
+      ||
+      exam.prioridade === prioridadeFilter
+
+    return (
+      matchSearch &&
+      matchStatus &&
+      matchPrioridade
+    )
+
+  }
+)
 
   return (
 
@@ -554,10 +603,75 @@ function Coletas() {
         <div className="bg-white rounded-3xl shadow-xl p-10">
 
           <h1 className="text-4xl font-bold mb-8">
-            Lista de Coletas
-          </h1>
+              Lista de Coletas
+            </h1>
 
-          <div className="overflow-auto">
+            <div className="flex gap-4 mb-6">
+
+              <input
+                type="text"
+                placeholder="Buscar paciente ou protocolo..."
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+                className="border p-3 rounded-xl flex-1"
+              />
+
+              <select
+                value={statusFilter}
+                onChange={(e) =>
+                  setStatusFilter(
+                    e.target.value
+                  )
+                }
+                className="border p-3 rounded-xl"
+              >
+                <option value="TODOS">
+                  Todos Status
+                </option>
+
+                <option value="PENDENTE">
+                  Pendente
+                </option>
+
+                <option value="EM ANÁLISE">
+                  Em Análise
+                </option>
+
+                <option value="CONCLUÍDO">
+                  Concluído
+                </option>
+
+              </select>
+
+              <select
+                value={prioridadeFilter}
+                onChange={(e) =>
+                  setPrioridadeFilter(
+                    e.target.value
+                  )
+                }
+                className="border p-3 rounded-xl"
+              >
+
+                <option value="TODAS">
+                  Todas Prioridades
+                </option>
+
+                <option value="NORMAL">
+                  Normal
+                </option>
+
+                <option value="URGENTE">
+                  Urgente
+                </option>
+
+              </select>
+
+            </div>
+
+            <div className="overflow-auto">
 
             <table className="w-full">
 
@@ -588,7 +702,7 @@ function Coletas() {
               <tbody>
 
                 {
-                  exams.map((exam) => (
+                  filteredExams.map((exam) => (
 
                     <tr
                       key={exam.id}

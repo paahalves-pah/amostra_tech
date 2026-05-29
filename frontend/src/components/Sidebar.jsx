@@ -50,6 +50,13 @@ function Sidebar() {
           Coletas
         </Link>
 
+        <Link
+          to="/procedimentos"
+          className="hover:text-blue-600 transition"
+        >
+          Procedimentos
+        </Link>
+
         {
           user?.tipo_usuario === "ADMIN"
           && (
