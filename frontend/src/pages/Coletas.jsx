@@ -176,6 +176,86 @@ function Coletas() {
 
     try {
 
+      // CAMPOS OBRIGATÓRIOS
+
+if (
+  !paciente ||
+  !cpf ||
+  !telefone ||
+  tipoExame.length === 0
+) {
+
+  alert(
+    "Preencha todos os campos obrigatórios."
+  )
+
+  return
+
+}
+
+// NOME
+
+if (
+  !/^[A-Za-zÀ-ÿ\s]+$/.test(
+    paciente
+  )
+) {
+
+  alert(
+    "Nome do paciente deve conter apenas letras."
+  )
+
+  return
+
+}
+
+// CPF
+
+if (
+  !/^\d{11}$/.test(cpf)
+) {
+
+  alert(
+    "CPF deve conter exatamente 11 números."
+  )
+
+  return
+
+}
+
+// TELEFONE
+
+if (
+  !/^\d{10,11}$/.test(
+    telefone
+  )
+) {
+
+  alert(
+    "Telefone deve conter apenas números e ter 10 ou 11 dígitos."
+  )
+
+  return
+
+}
+
+// RESPONSÁVEL
+
+if (
+  responsavel &&
+  !/^[A-Za-zÀ-ÿ\s]+$/.test(
+    responsavel
+  )
+) {
+
+  alert(
+    "Responsável deve conter apenas letras."
+  )
+
+  return
+
+}
+
       if (editingId) {
 
         await api.put(
@@ -439,8 +519,13 @@ function Coletas() {
               type="text"
               placeholder="CPF"
               value={cpf}
-              onChange={(e) =>
-                setCpf(e.target.value)
+             onChange={(e) =>
+                setCpf(
+                  e.target.value.replace(
+                    /\D/g,
+                    ""
+                  )
+                )
               }
               className="p-4 border rounded-2xl"
             />
@@ -467,8 +552,13 @@ function Coletas() {
               placeholder="Telefone"
               value={telefone}
               onChange={(e) =>
-                setTelefone(e.target.value)
-              }
+                  setTelefone(
+                    e.target.value.replace(
+                      /\D/g,
+                      ""
+                    )
+                  )
+                }
               className="p-4 border rounded-2xl"
             />
 

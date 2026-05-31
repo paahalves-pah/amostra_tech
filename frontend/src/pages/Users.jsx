@@ -99,22 +99,124 @@ function Users() {
   async function handleCreateOrUpdate() {
 
     try {
+          // NOME
 
       if (
-        !nome ||
-        !email ||
-        !telefone ||
-        !funcao ||
-        !setor
+        !/^[A-Za-zÀ-ÿ\s]+$/.test(
+          nome
+        )
       ) {
 
         alert(
-          "Preencha todos os campos"
+          "Nome deve conter apenas letras."
         )
 
         return
 
       }
+
+      // EMAIL
+
+      const emailRegex =
+
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+      if (
+        !emailRegex.test(email)
+      ) {
+
+        alert(
+          "Digite um email válido."
+        )
+
+        return
+
+      }
+
+      // TELEFONE
+
+      if (
+        !/^\d{10,11}$/.test(
+          telefone
+        )
+      ) {
+
+        alert(
+          "Telefone deve conter apenas números e ter 10 ou 11 dígitos."
+        )
+
+        return
+
+      }
+
+      // FUNÇÃO
+
+      if (
+        !/^[A-Za-zÀ-ÿ\s]+$/.test(
+          funcao
+        )
+      ) {
+
+        alert(
+          "Função deve conter apenas letras."
+        )
+
+        return
+
+      }
+
+      // SETOR
+
+      if (
+        !/^[A-Za-zÀ-ÿ\s]+$/.test(
+          setor
+        )
+      ) {
+
+        alert(
+          "Setor deve conter apenas letras."
+        )
+
+        return
+
+      }
+
+      if (
+        !nome.trim() ||
+        !email.trim() ||
+        !telefone.trim() ||
+        !funcao.trim() ||
+        !setor.trim()
+      ) {
+
+        alert(
+          "Preencha todos os campos obrigatórios."
+        )
+
+        return
+
+      }
+
+      if (
+        !editingId &&
+        !senha.trim()
+      ) {
+
+        alert(
+          "Informe uma senha para o usuário."
+        )
+
+        return
+
+      }
+
+              alert(
+                "Preencha todos os campos"
+              )
+
+              return
+
+            
 
       if (
         !email.endsWith("@amostratech.com")
@@ -342,20 +444,25 @@ function Users() {
               type="text"
               placeholder="Telefone"
               value={telefone}
-              onChange={(e) =>
-                setTelefone(e.target.value)
-              }
+                onChange={(e) =>
+                  setTelefone(
+                    e.target.value.replace(
+                      /\D/g,
+                      ""
+                    )
+                  )
+                }
               className="p-5 rounded-2xl border-2 border-gray-300 outline-none focus:border-blue-500"
             />
 
-            <input
-              type="text"
-              placeholder="Função"
-              value={funcao}
-              onChange={(e) =>
-                setFuncao(e.target.value)
-              }
-              className="p-5 rounded-2xl border-2 border-gray-300 outline-none focus:border-blue-500"
+           <input
+            type="text"
+            placeholder="Função"
+            value={funcao}
+            onChange={(e) =>
+              setFuncao(e.target.value)
+            }
+            className="p-5 rounded-2xl border-2 border-gray-300 outline-none focus:border-blue-500"
             />
 
             <input
