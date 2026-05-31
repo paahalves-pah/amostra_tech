@@ -28,7 +28,7 @@ Sistema voltado para uso interno de clínicas e laboratórios.
 | Figma                 | (https://www.figma.com/design/Vu3iC1SOg2qlgNF8rXMwnB/Expotech?node-id=0-1&t=ZEWljXXO0P1mLGkz-1) |
 | Fluxograma            | (https://drive.google.com/file/d/1FZhsY3iFBuhyAWGdQFjr517tZTJtlmc8/view?usp=sharing)|
 | Vídeo de Demonstração | (https://youtube.com/shorts/sA17GBB-VGM?feature=share) |
-| GitHub                | COLE_AQUI |
+| GitHub                | (https://github.com/paahalves-pah/amostra_tech.git) |
 
 ---
 
